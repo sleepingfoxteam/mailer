@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "143167022177",
+    "firebase_url": "https://mailer-acd5f.firebaseio.com",
+    "project_id": "mailer-acd5f",
+    "storage_bucket": "mailer-acd5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143167022177:android:8194d74ab687a8124e3620",
+        "android_client_info": {
+          "package_name": "com.demo.fluttermailer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143167022177-o5fok8mvthp6e9gb21qqa19g9i91fict.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.demo.fluttermailer",
+            "certificate_hash": "17a09c2232b1c1dab27218350e4e352daaf0e598"
+          }
+        },
+        {
+          "client_id": "143167022177-d9i0tu13cj2hvqbikdsdble6h1be76sn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4ZDsxef7MyJI7YyU8QHfHu-zSjv9I4Es"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "143167022177-d9i0tu13cj2hvqbikdsdble6h1be76sn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
