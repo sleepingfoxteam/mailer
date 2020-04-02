@@ -1,3 +1,5 @@
+import 'package:google_sign_in/google_sign_in.dart';
+
 class UserInfoProvider {
   // Singleton
   UserInfoProvider._();
@@ -7,4 +9,6 @@ class UserInfoProvider {
   factory UserInfoProvider() {
     return _userInfoProvider;
   }
+
+  GoogleSignInAccount googleSignInAccount;
 }
