@@ -32,14 +32,16 @@ class HomeBloc extends BaseBloc {
         accessToken: auth.accessToken,
         idToken: auth.idToken,
       );
-      _navigator.openScreen(Inbox());
+      _navigator.openScreenAndRemoveOthers(Inbox());
     }
   }
 
   void checkUserLogin() async {
+    handleLoading(true);
     final result = await _userRepo.checkUserLogin();
     if (result.isSuccess()) {
       _navigator.openScreenAndRemoveOthers(Inbox());
     }
+    handleLoading(false);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttermailer/blocs/bloc_index.dart';
+import 'package:fluttermailer/blocs/stream_data.dart';
 import 'package:fluttermailer/screens/inbox/inbox.dart';
 import 'package:fluttermailer/utils/utils_index.dart';
 import 'package:get_it/get_it.dart';
@@ -31,16 +32,40 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Center(
-          child: RaisedButton(
-            child: Text("Sign in with Google"),
-            onPressed: () {
-              _bloc.doGoogleSignIn();
-            },
+    var overlayWidget = createStreamWidget(
+      streamData: _bloc.streamIsLoading,
+      buildChild: (context, value) {
+        return Visibility(
+          child: Container(
+            color: Colors.white,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
           ),
-        ),
+          visible: value == false,
+        );
+      },
+    );
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          overlayWidget,
+          Container(
+            child: Center(
+              child: RaisedButton(
+                child: Text("Sign in with Google"),
+                onPressed: () {
+                  _bloc.doGoogleSignIn();
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
