@@ -1,4 +1,4 @@
-package com.example.fluttermailer
+package com.demo.fluttermailer
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
