@@ -11,4 +11,15 @@ class UserInfoProvider {
   }
 
   GoogleSignInAccount googleSignInAccount;
+  String accessToken;
+  String idToken;
+
+  void saveUser({
+    GoogleSignInAccount account,
+    GoogleSignInAuthentication authentication,
+  }) {
+    googleSignInAccount = account;
+    accessToken = authentication.accessToken;
+    idToken = authentication.idToken;
+  }
 }
