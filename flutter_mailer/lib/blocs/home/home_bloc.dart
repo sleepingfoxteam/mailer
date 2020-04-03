@@ -36,11 +36,28 @@ class HomeBloc extends BaseBloc {
     }
   }
 
+  void getUserGoogleAccount() async {
+    final result = await _userRepo.signInWithGoogle();
+    Fimber.d("getUserGoogleAccount: $result");
+    if (result.isSuccess()) {
+      GoogleSignInAuthentication auth = await result.data.authentication;
+      _userInfoProvider.saveUser(
+        account: result.data,
+        authentication: auth,
+      );
+      _sharePreferences.saveUser(
+        accessToken: auth.accessToken,
+        idToken: auth.idToken,
+      );
+    }
+  }
+
   void checkUserLogin() async {
     handleLoading(true);
     final result = await _userRepo.checkUserLogin();
     if (result.isSuccess()) {
       _navigator.openScreenAndRemoveOthers(Inbox());
+      getUserGoogleAccount();
     }
     handleLoading(false);
   }
