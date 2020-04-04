@@ -20,6 +20,8 @@ class UserInfoProvider {
   }) {
     googleSignInAccount = account;
     accessToken = authentication.accessToken;
+    print("++==++$accessToken");
     idToken = authentication.idToken;
+    print("++==++${account.id}");
   }
 }
