@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
                 .size
                 .height,
           ),
-          visible: value == false,
+          visible: value ?? true,
         );
       },
     );
