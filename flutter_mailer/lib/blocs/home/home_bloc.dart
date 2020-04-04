@@ -19,7 +19,7 @@ class HomeBloc extends BaseBloc {
   /// null means having nothing yet
   StreamData<String> streamAccessToken = StreamData(null);
 
-  void doGoogleSignIn() async {
+  doGoogleSignIn() async {
     final result = await _userRepo.signInWithGoogle();
     Fimber.d("doGoogleSignIn: $result");
     if (result.isSuccess()) {
@@ -36,7 +36,7 @@ class HomeBloc extends BaseBloc {
     }
   }
 
-  void getUserGoogleAccount() async {
+  getUserGoogleAccount() async {
     final result = await _userRepo.signInWithGoogle();
     Fimber.d("getUserGoogleAccount: $result");
     if (result.isSuccess()) {
@@ -56,8 +56,8 @@ class HomeBloc extends BaseBloc {
     handleLoading(true);
     final result = await _userRepo.checkUserLogin();
     if (result.isSuccess()) {
+      await getUserGoogleAccount();
       _navigator.openScreenAndRemoveOthers(Inbox());
-      getUserGoogleAccount();
     }
     handleLoading(false);
   }
