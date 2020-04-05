@@ -10,6 +10,7 @@ import 'package:fluttermailer/screens/message/message_screen.dart';
 import 'package:fluttermailer/utils/utils_index.dart';
 import 'package:get_it/get_it.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class InboxScreen extends StatefulWidget {
   @override
@@ -49,10 +50,6 @@ class _InboxScreenState extends State<InboxScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery
-        .of(context)
-        .size
-        .width;
     double height = MediaQuery
         .of(context)
         .size
@@ -119,13 +116,18 @@ class _InboxScreenState extends State<InboxScreen> {
               streamData: _bloc.streamUserMessages,
               buildChild: (context, value) {
                 List list = (value as LoadUserMessageListResultModel)?.messages;
-                return ListView.builder(
-                  controller: _controller,
-                  itemCount: list?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    GmailMessageResultModel gmail = list[index];
-                    return _getMessageListItem(gmailModel: gmail);
-                  },
+                return LiquidPullToRefresh(
+                  onRefresh: doRefreshMessageList
+                  ,
+                  child: ListView.builder(
+                    controller: _controller,
+                    itemCount: list?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      GmailMessageResultModel gmail = list[index];
+                      return _getMessageListItem(gmailModel: gmail);
+                    },
+                  ),
+                  scrollController: _controller,
                 );
               },
             ),
