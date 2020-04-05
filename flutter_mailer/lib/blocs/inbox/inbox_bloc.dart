@@ -18,6 +18,9 @@ class InboxBloc extends BaseBloc {
   // 0.0 means not loading
   StreamData<double> streamLoadingPercent = StreamData(0.0);
 
+  // null means having nothing yet
+  StreamData<bool> streamProcessState = StreamData(null);
+
   InboxBloc({GmailRepo gmailRepo, GmailProvider gmailProvider}) {
     _gmailRepo = gmailRepo ?? GetIt.I<GmailRepo>();
     _gmailProvider = gmailProvider ?? GetIt.I<GmailProvider>();
@@ -74,5 +77,25 @@ class InboxBloc extends BaseBloc {
     String nextPage =
         _gmailProvider.loadUserMessageListResultModel.nextPageToken;
     loadUserMessageList(uid: "me", pageToken: nextPage);
+  }
+
+  void moveMessageToStrash({String gmailId}) async {
+    handleLoading(true);
+    final result = await _gmailRepo.moveMessageToStrash(gmailId: gmailId);
+    if (result.isSuccess()) {
+      removeMessageFromList(gmailId: gmailId);
+      streamProcessState.setData(true);
+    } else {
+      streamProcessState.setData(false);
+    }
+    handleLoading(false);
+  }
+
+  void removeMessageFromList({String gmailId}) {
+    List<GmailMessageResultModel> gmails =
+        _gmailProvider.loadUserMessageListResultModel.messages;
+    gmails.removeWhere((e) => e.id == gmailId);
+    _gmailProvider.loadUserMessageListResultModel.messages = gmails;
+    streamUserMessages.setData(_gmailProvider.loadUserMessageListResultModel);
   }
 }
