@@ -26,7 +26,7 @@ class InboxBloc extends BaseBloc {
     _gmailProvider = gmailProvider ?? GetIt.I<GmailProvider>();
   }
 
-  void loadUserMessageList({String uid,
+  Future loadUserMessageList({String uid,
     bool includeSpamTrash: false,
     int maxResults: 5,
     String pageToken: "",
@@ -97,5 +97,17 @@ class InboxBloc extends BaseBloc {
     gmails.removeWhere((e) => e.id == gmailId);
     _gmailProvider.loadUserMessageListResultModel.messages = gmails;
     streamUserMessages.setData(_gmailProvider.loadUserMessageListResultModel);
+  }
+
+  Future refreshMessageList() async {
+    handleLoading(false);
+    final result = await _gmailRepo.loadUserMessageList(uid: "me");
+    if (result.isSuccess()) {
+      LoadUserMessageListResultModel resultModel =
+      await loadUserMessageListResultModelFull(result.data);
+      streamUserMessages.setData(resultModel);
+      _gmailProvider.loadUserMessageListResultModel = resultModel;
+    }
+    streamLoadingPercent.setData(0);
   }
 }
