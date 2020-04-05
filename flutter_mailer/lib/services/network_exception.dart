@@ -1,3 +1,5 @@
+import 'package:dio/src/response.dart';
+
 class NetworkException {
   final int httpCode;
   final int subCode;
@@ -14,5 +16,12 @@ class NetworkException {
   @override
   String toString() {
     return "NetworkException{httpCode:$httpCode,subCode:$subCode,message:$message,detailCode:$detailCode}";
+  }
+
+  factory NetworkException.fromRequestException(Response response,
+      Exception e) {
+    return NetworkException(
+      message: "Default Exception",
+    );
   }
 }

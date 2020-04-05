@@ -1,4 +1,4 @@
-import 'package:fluttermailer/repositories/network_exception.dart';
+import 'package:fluttermailer/services/network_exception.dart';
 
 class RepoResult<T> {
   T _data;

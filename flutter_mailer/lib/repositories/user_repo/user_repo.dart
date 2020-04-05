@@ -1,5 +1,5 @@
-import 'package:fluttermailer/repositories/network_exception.dart';
 import 'package:fluttermailer/repositories/repo_result.dart';
+import 'package:fluttermailer/services/network_exception.dart';
 import 'package:fluttermailer/services/service_index.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
