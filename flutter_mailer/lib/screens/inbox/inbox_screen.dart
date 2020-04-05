@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttermailer/blocs/bloc_index.dart';
 import 'package:fluttermailer/blocs/stream_data.dart';
 import 'package:fluttermailer/models/gmail_models/load_user_message_list_result_model.dart';
+import 'package:fluttermailer/models/model_index.dart';
 import 'package:fluttermailer/providers/gmail_provider.dart';
+import 'package:fluttermailer/utils/utils_index.dart';
 import 'package:get_it/get_it.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
@@ -59,11 +62,14 @@ class _InboxScreenState extends State<InboxScreen> {
         child: createStreamWidget(
           streamData: _bloc.streamUserMessages,
           buildChild: (context, value) {
-            return Text((value as LoadUserMessageListResultModel)
-                ?.messages
-                ?.length
-                ?.toString() ??
-                "Loading...");
+            List list = (value as LoadUserMessageListResultModel)?.messages;
+            return ListView.builder(
+              itemCount: list?.length ?? 0,
+              itemBuilder: (context, index) {
+                GmailMessageResultModel gmail = list[index];
+                return _getMessageListItem(gmailModel: gmail);
+              },
+            );
           },
         ),
       ),
@@ -86,9 +92,63 @@ class _InboxScreenState extends State<InboxScreen> {
         pageToken: "",
         q: "",
       );
-    }
-    else {
+    } else {
       _bloc.getGmailMessageProvider();
     }
+  }
+
+  Widget _getMessageListItem({GmailMessageResultModel gmailModel}) {
+    String from = gmailModel.payload.headers
+        .where((i) => i.name == "From")
+        .toList()[0]
+        .value;
+    String subject = gmailModel.payload.headers
+        .where((i) => i.name == "Subject")
+        .toList()[0]
+        .value;
+    String snippet = gmailModel.snippet;
+    print(subject);
+    return GestureDetector(
+      onTap: () {
+        AppUIUtils.showToast(title: "Implement go to message detail later");
+      },
+      child: Slidable(
+        actionPane: SlidableDrawerActionPane(),
+        actionExtentRatio: 0.25,
+        actions: <Widget>[
+          SlideAction(
+            color: Colors.red,
+            child: Center(
+              child: Icon(Icons.delete),
+            ),
+            onTap: () {
+              AppUIUtils.showToast(title: "Implement delete message later");
+            },
+          ),
+        ],
+        secondaryActions: <Widget>[
+          SlideAction(
+            color: Colors.blue,
+            child: Center(
+              child: Icon(Icons.archive),
+            ),
+            onTap: () {
+              AppUIUtils.showToast(title: "Implement archived message later");
+            },
+          )
+        ],
+        child: Container(
+          height: 150,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(from),
+              Text(subject),
+              Text(snippet),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
