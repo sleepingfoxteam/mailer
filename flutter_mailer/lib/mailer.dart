@@ -28,6 +28,7 @@ class _MailerState extends State<Mailer> {
     //Singletons
     getIt.registerSingleton<UserInfoProvider>(UserInfoProvider());
     getIt.registerSingleton<MailerNavigator>(MailerNavigator());
+    getIt.registerSingleton<GmailProvider>(GmailProvider());
 
     // Factories
     getIt.registerFactory<HomeBloc>(() => HomeBloc());
