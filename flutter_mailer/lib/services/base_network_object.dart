@@ -26,3 +26,19 @@ abstract class BasePostObject<T> implements BaseNetworkObject {
 
   Map<String, dynamic> buildPostData();
 }
+
+abstract class BasePutObject<T> implements BaseNetworkObject {
+  String method() {
+    return "PUT";
+  }
+
+  Map<String, dynamic> buildPostData();
+}
+
+abstract class BaseDeleteObject<T> implements BaseNetworkObject {
+  String method() {
+    return "DELETE";
+  }
+
+  Map<String, dynamic> buildPostData();
+}
