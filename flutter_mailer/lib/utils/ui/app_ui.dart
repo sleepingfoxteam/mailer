@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AppUIUtils {
-  static void showToast({@required title}) {
-    Fluttertoast.showToast(msg: title);
+  static void showToast({@required title, Color color}) {
+    Fluttertoast.showToast(msg: title, backgroundColor: color);
   }
 }

@@ -46,4 +46,11 @@ class GmailRepo {
     );
     return RepoResult.from(result);
   }
+
+  Future<RepoResult<MoveStrashResultModel>> moveMessageToStrash(
+      {String gmailId}) async {
+    final result =
+    await _gmailNetworkService.moveMessgeToStrash(gmailId: gmailId);
+    return RepoResult.from(result);
+  }
 }
