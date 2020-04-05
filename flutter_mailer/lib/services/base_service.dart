@@ -16,6 +16,7 @@ class BaseService {
     Response response;
     try {
       response = await _apiService.executeRequest(baseNetworkObject);
+      return baseNetworkObject.parseJson(response);
     } on Exception catch (e) {
       var error = NetworkException.fromRequestException(response, e);
       print('${baseNetworkObject.requestName()} FAILED: $error');
