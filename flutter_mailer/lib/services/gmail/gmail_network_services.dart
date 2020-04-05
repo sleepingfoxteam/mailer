@@ -2,6 +2,7 @@ import '../base_service.dart';
 import 'gmail_network_objects/get_gmail_from_id.dart';
 import 'gmail_network_objects/get_user_profile.dart';
 import 'gmail_network_objects/load_user_message_list.dart';
+import 'gmail_network_objects/move_message_to_strash.dart';
 
 class GmailNetworkService extends BaseService {
   dynamic getUserProfile({String uid}) async {
@@ -32,5 +33,9 @@ class GmailNetworkService extends BaseService {
       id: id,
       format: format,
     ));
+  }
+
+  dynamic moveMessgeToStrash({String gmailId}) async {
+    return await execute(MoveMessageToStrashNetworkObject(gmailId: gmailId));
   }
 }
