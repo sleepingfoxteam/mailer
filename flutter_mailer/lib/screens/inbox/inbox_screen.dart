@@ -18,11 +18,25 @@ class InboxScreen extends StatefulWidget {
 class _InboxScreenState extends State<InboxScreen> {
   final _bloc = GetIt.I<InboxBloc>();
   final _gmailProvider = GetIt.I<GmailProvider>();
+  ScrollController _controller;
 
   @override
   void initState() {
     checkMessage();
+    _controller = ScrollController();
+    _controller.addListener(() {
+      if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+        print("heeeee");
+        _bloc.doLoadMoreMessage();
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
   }
 
   @override
@@ -64,6 +78,7 @@ class _InboxScreenState extends State<InboxScreen> {
           buildChild: (context, value) {
             List list = (value as LoadUserMessageListResultModel)?.messages;
             return ListView.builder(
+              controller: _controller,
               itemCount: list?.length ?? 0,
               itemBuilder: (context, index) {
                 GmailMessageResultModel gmail = list[index];

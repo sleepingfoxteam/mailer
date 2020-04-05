@@ -9,6 +9,7 @@ import 'package:get_it/get_it.dart';
 class InboxBloc extends BaseBloc {
   GmailRepo _gmailRepo;
   GmailProvider _gmailProvider;
+  List<GmailMessageResultModel> listMessages = List();
 
   // null means having nothing yet
   StreamData<LoadUserMessageListResultModel> streamUserMessages =
@@ -41,6 +42,7 @@ class InboxBloc extends BaseBloc {
       streamUserMessages.setData(resultModel);
       _gmailProvider.loadUserMessageListResultModel = resultModel;
     }
+    streamLoadingPercent.setData(0);
     handleLoading(false);
   }
 
@@ -57,7 +59,8 @@ class InboxBloc extends BaseBloc {
       }
       gmails.add(gmail);
     }
-    data.messages = gmails;
+    listMessages.addAll(gmails);
+    data.messages = listMessages;
     return data;
   }
 
@@ -65,5 +68,11 @@ class InboxBloc extends BaseBloc {
     handleLoading(true);
     streamUserMessages.setData(_gmailProvider.loadUserMessageListResultModel);
     handleLoading(false);
+  }
+
+  void doLoadMoreMessage() async {
+    String nextPage =
+        _gmailProvider.loadUserMessageListResultModel.nextPageToken;
+    loadUserMessageList(uid: "me", pageToken: nextPage);
   }
 }
