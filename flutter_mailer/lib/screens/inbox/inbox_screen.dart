@@ -212,4 +212,8 @@ class _InboxScreenState extends State<InboxScreen> {
       ),
     );
   }
+
+  Future doRefreshMessageList() async {
+    await _bloc.refreshMessageList();
+  }
 }
