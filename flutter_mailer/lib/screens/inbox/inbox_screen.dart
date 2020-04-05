@@ -26,6 +26,13 @@ class _InboxScreenState extends State<InboxScreen> {
   void initState() {
     checkMessage();
     _controller = ScrollController();
+    _bloc.streamProcessState.listen((value) {
+      if (value == true) {
+        AppUIUtils.showToast(title: "SUCCESS", color: Colors.green);
+      } else {
+        AppUIUtils.showToast(title: "FAILED", color: Colors.red);
+      }
+    });
     _controller.addListener(() {
       if (_controller.position.pixels == _controller.position.maxScrollExtent) {
         _bloc.doLoadMoreMessage();
@@ -159,7 +166,7 @@ class _InboxScreenState extends State<InboxScreen> {
         .toList()[0]
         .value;
     String snippet = gmailModel.snippet;
-    print(subject);
+    String gmailId = gmailModel.id;
     return GestureDetector(
       onTap: () {
         _navigator.openScreen(MessageScreen(
@@ -176,7 +183,7 @@ class _InboxScreenState extends State<InboxScreen> {
               child: Icon(Icons.delete),
             ),
             onTap: () {
-              AppUIUtils.showToast(title: "Implement delete message later");
+              _bloc.moveMessageToStrash(gmailId: gmailId);
             },
           ),
         ],
