@@ -57,9 +57,19 @@ class BaseApiService {
         data: networkObject.buildPostData(),
         queryParameters: queryParams,
       );
-    } else {
+    } else if (networkObject is BaseGetObject) {
       // Default is GET request
       response = await _dio.get(
+        networkObject.apiPath(),
+        queryParameters: queryParams,
+      );
+    } else if (networkObject is BasePutObject) {
+      response = await _dio.put(
+        networkObject.apiPath(),
+        queryParameters: queryParams,
+      );
+    } else {
+      response = await _dio.delete(
         networkObject.apiPath(),
         queryParameters: queryParams,
       );
